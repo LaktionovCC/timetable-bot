@@ -1,6 +1,0 @@
-beautifulsoup4==4.6.0
-bs4==0.0.1
-DateTime==4.2
-pyTelegramBotAPI==3.6.2
-telebot=0.0.3
-requests==2.18.4

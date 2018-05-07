@@ -1,1 +1,1 @@
-web: python3 app.py
+web: pip install bs4 DateTime pyTelegramBotAPI requests && python3 app.py
