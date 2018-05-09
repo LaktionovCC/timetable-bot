@@ -103,7 +103,9 @@ def data(c=0,g=0):
     return [c,g]
 course=["1","2","4"]
 grouplist = {"101" : 258, "102" : 257, "201" : 63, "202" : 64 , "401" : 65 , "402" : 66, "403": 67, "404": 68}
-dayt = ["вчера", "сегодня", "завтра", "послезавтра"]
+dayt = ["сегодня", "вчера", "завтра", "послезавтра"]
+mat=["бля","сука","заебался","надуй","ебал","хуйня","хуй","пизда"]
+
 new_offset = None
 while True:
 
@@ -122,7 +124,9 @@ while True:
             last_chat_name = last_update['message']['chat']['first_name']
         except KeyError:
             continue
-    if last_chat_text.lower() == "заебался":
+    if last_chat_text.lower() == "локоть":
+        bot.send_message(last_chat_id, ("Локоть мой бог")) 
+    if last_chat_text.lower() in mat:
         bot.send_message(last_chat_id, ("Братан, не ссы еще " + str(
             (datetime.datetime(2018, 7, 1) - datetime.datetime.now()).days) + " день"))    
     if last_chat_text == ("/start") or last_chat_text == "сменить курс" or (str(last_chat_id) not in dat):
@@ -144,7 +148,7 @@ while True:
     elif (last_chat_text in grouplist) or (last_chat_text=="меню" and (str(dat[str(last_chat_id)][0]) in course and str(dat[str(last_chat_id)][0]) in grouplist)):
         dat[str(last_chat_id)][1] = last_chat_text
         bot.send_message(last_chat_id, "Меню", reply_markup=generate_markup(
-            ["завтра", "послезавтра", "сегодня", "вчера", "сменить курс", "сменить группу"], False, True))
+            ["сегодня", "вчера", "завтра", "послезавтра", "сменить курс", "сменить группу"], False, True))
     else:
         if (str(dat[str(last_chat_id)][0]) not in course):
             dat[str(last_chat_id)] = [[], []]
@@ -157,7 +161,7 @@ while True:
             elif dat[str(last_chat_id)][0] == "4" :
                 bot.send_message(last_chat_id, "выберите группу:", reply_markup=generate_markup(["401","402","403","404"], False, True))
         elif (str(dat[str(last_chat_id)][0]) in course) and (str(dat[str(last_chat_id)][1]) in grouplist):
-            bot.send_message(last_chat_id, "Меню", reply_markup=generate_markup(["завтра", "послезавтра", "сегодня", "вчера", "сменить курс", "сменить группу"], False, True))
+            bot.send_message(last_chat_id, "Меню", reply_markup=generate_markup(["сегодня", "вчера", "завтра", "послезавтра", "сменить курс", "сменить группу"], False, True))
         else:
             dat[str(last_chat_id)] = [[], []]
             bot.send_message(last_chat_id, "выберите курс:", reply_markup=generate_markup(["1", "2", "4"], False, True))
