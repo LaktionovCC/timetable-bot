@@ -44,7 +44,6 @@ def timetable(d=0, group=257):
     for i in par:
         if i != "":
             pardata.append(re.findall("\w+", i))
-    print(pardata)
     for i in pardata:
         if i[2] != "ауд":
             i[0] = i[0] + "-" + i[1]
@@ -123,6 +122,9 @@ while True:
             last_chat_name = last_update['message']['chat']['first_name']
         except KeyError:
             continue
+    if last_chat_text.lower() == "заебался":
+        bot.send_message(last_chat_id, ("Братан, не ссы еще " + str(
+            (datetime.datetime(2018, 7, 1) - datetime.datetime.now()).days) + " день"))    
     if last_chat_text == ("/start") or last_chat_text == "сменить курс" or (str(last_chat_id) not in dat):
         dat[str(last_chat_id)]=[[],[]]
         bot.send_message(last_chat_id, "выберите курс:", reply_markup=generate_markup(["1", "2", "4"], False, True))
