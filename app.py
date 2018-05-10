@@ -62,7 +62,7 @@ def timetable(d=0, group=257):
                 break
             ret = ret + str( str(i + 1) + " пара " + pardata[i][0] + " " + pardata[i][1] + " в аудиторий № " + pardata[i][3] + " корпусе " + "№ " + pardata[i][4] + " " + "преподователь " + pardata[i][5] + " " + pardata[i][6] + " " + pardata[i][7]) + "\n"
     if pardata == []:
-        ret = ' нету пар'
+        ret = ' нет пар'
 
     return ret
 
@@ -128,7 +128,7 @@ while True:
                     continue
             print(last_chat_id,last_chat_name)
             if str(last_chat_id) in banda :
-                bot.send_message(last_chat_id, ("WIP ✨ 👑 LSD"))
+                bot.send_message(last_chat_id, ("VIP ✨ 👑 LSD"))
             if last_chat_text.lower() == "локоть":
                 bot.send_message(last_chat_id, ("Локоть мой бог")) 
             if last_chat_text.lower() in mat:
