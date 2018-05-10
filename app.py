@@ -11,7 +11,7 @@ bot = telebot.TeleBot(token)
 markup = types.ReplyKeyboardMarkup()
 dat = {}
 sub=[]
-
+banda=["367054126","465166018","491711894"]
 
 def vdata(d=0):
     nowdata = datetime.datetime.now() + datetime.timedelta(days=d)
@@ -106,64 +106,71 @@ grouplist = {"101" : 258, "102" : 257, "201" : 63, "202" : 64 , "401" : 65 , "40
 dayt = [ "вчера","сегодня", "завтра", "послезавтра"]
 mat=["бля","сука","заебался","надуй","ебал","хуйня","хуй","пизда"]
 
+
 new_offset = None
 while True:
+    try: 
+        while True:
+            if get_updates(new_offset) == []:
+                get_updates(None)
+            else:
+                get_updates(new_offset)
+            if get_last_update() == None:
+                continue
+            else:
+                try:
+                    last_update = get_last_update()
+                    last_update_id = last_update['update_id']
+                    last_chat_text = str(last_update['message']['text'])
+                    last_chat_id = last_update['message']['chat']['id']
+                    last_chat_name = last_update['message']['chat']['first_name']
+                except KeyError:
+                    continue
+            if str(last_chat_id) in banda :
+                bot.send_message(last_chat_id, ("WIP ✨ 👑 LSD"))
+            if last_chat_text.lower() == "локоть":
+                bot.send_message(last_chat_id, ("Локоть мой бог")) 
+            if last_chat_text.lower() in mat:
+                bot.send_message(last_chat_id, ("Братан, не ссы еще " + str(
+                (datetime.datetime(2018, 7, 1) - datetime.datetime.now()).days) + " день"))    
+            if last_chat_text == ("/start") or last_chat_text == "сменить курс" or  (str(last_chat_id) not in dat):
+                dat[str(last_chat_id)]=[[],[]]
+                bot.send_message(last_chat_id, "выберите курс:",    reply_markup=generate_markup(["1", "2", "4"], False, True))
+            elif (last_chat_text in dayt):
+                simple(last_chat_text)
+            elif (last_chat_text in course) or ((str(dat[str(last_chat_id)][0]) in course) and  last_chat_text=="сменить группу"):
+                if last_chat_text =="1" or dat[str(last_chat_id)][0]=="1":
+                    bot.send_message(last_chat_id, "выберите группу:",reply_markup=generate_markup(["101","102"], False, True))
+                    dat[str(last_chat_id)][0]="1"
+                elif last_chat_text =="2" or dat[str(last_chat_id)][0]=="2":
+                    bot.send_message(last_chat_id, "выберите группу:",reply_markup=generate_markup(["201","202"], False, True))
+                    dat[str(last_chat_id)][0]="2"
+                elif last_chat_text =="4" or dat[str(last_chat_id)][0]=="4":
+                    bot.send_message(last_chat_id, "выберите группу:",
+                                 reply_markup=generate_markup(["401", "402", "403", "404"],     False, True))
+                    dat[str(last_chat_id)][0]="4"
+            elif (last_chat_text in grouplist) or (last_chat_text=="меню" and       (str(dat[str(last_chat_id)][0]) in course and str(dat[str(last_chat_id)][0]) in     grouplist)):
+                dat[str(last_chat_id)][1] = last_chat_text
+                bot.send_message(last_chat_id, "Меню", reply_markup=generate_markup(
+                ["сегодня", "вчера", "завтра", "послезавтра", "сменить курс", "сменить группу"],    False, True))
+            else:
+                if (str(dat[str(last_chat_id)][0]) not in course):
+                    dat[str(last_chat_id)] = [[], []]
+                    bot.send_message(last_chat_id, "выберите курс:",    reply_markup=generate_markup(["1", "2", "4"], False, True))
+                elif (str(dat[str(last_chat_id)][0]) in course) and (str(dat[str(last_chat_id)] [1])     not in grouplist):
+                    if dat[str(last_chat_id)][0] == "1":
+                        bot.send_message(last_chat_id, "выберите группу:", reply_markup=generate_markup(["101","102"], False, True))
+                    elif dat[str(last_chat_id)][0] == "2":
+                        bot.send_message(last_chat_id, "выберите группу:",  reply_markup=generate_markup(["201", "202"], False, True))
+                    elif dat[str(last_chat_id)][0] == "4" :
+                        bot.send_message(last_chat_id, "выберите группу:",   reply_markup=generate_markup(["401","402","403","404"], False, True))
+                elif (str(dat[str(last_chat_id)][0]) in course) and (str(dat[str(last_chat_id)] [1]) in grouplist):
+                    bot.send_message(last_chat_id, "Меню",  reply_markup=generate_markup(["сегодня", "вчера", "завтра", "послезавтра", "сменить курс", "сменить группу"], False, True))
+                else:
+                    dat[str(last_chat_id)] = [[], []]
+                    bot.send_message(last_chat_id, "выберите курс:", reply_markup=generate_markup(["1", "2", "4"], False, True))
 
-    if get_updates(new_offset) == []:
-        get_updates(None)
-    else:
-        get_updates(new_offset)
-    if get_last_update() == None:
+            new_offset = last_update_id + 1
+    except KeyError:
+        print("Ошибка")
         continue
-    else:
-        try:
-            last_update = get_last_update()
-            last_update_id = last_update['update_id']
-            last_chat_text = str(last_update['message']['text'])
-            last_chat_id = last_update['message']['chat']['id']
-            last_chat_name = last_update['message']['chat']['first_name']
-        except KeyError:
-            continue
-    if last_chat_text.lower() == "локоть":
-        bot.send_message(last_chat_id, ("Локоть мой бог")) 
-    if last_chat_text.lower() in mat:
-        bot.send_message(last_chat_id, ("Братан, не ссы еще " + str(
-            (datetime.datetime(2018, 7, 1) - datetime.datetime.now()).days) + " день"))    
-    if last_chat_text == ("/start") or last_chat_text == "сменить курс" or (str(last_chat_id) not in dat):
-        dat[str(last_chat_id)]=[[],[]]
-        bot.send_message(last_chat_id, "выберите курс:", reply_markup=generate_markup(["1", "2", "4"], False, True))
-    elif (last_chat_text in dayt):
-        simple(last_chat_text)
-    elif (last_chat_text in course) or ((str(dat[str(last_chat_id)][0]) in course) and last_chat_text=="сменить группу"):
-        if last_chat_text =="1" or dat[str(last_chat_id)][0]=="1":
-            bot.send_message(last_chat_id, "выберите группу:",reply_markup=generate_markup(["101","102"], False, True))
-            dat[str(last_chat_id)][0]="1"
-        elif last_chat_text =="2" or dat[str(last_chat_id)][0]=="2":
-            bot.send_message(last_chat_id, "выберите группу:",reply_markup=generate_markup(["201","202"], False, True))
-            dat[str(last_chat_id)][0]="2"
-        elif last_chat_text =="4" or dat[str(last_chat_id)][0]=="4":
-            bot.send_message(last_chat_id, "выберите группу:",
-                             reply_markup=generate_markup(["401", "402", "403", "404"], False, True))
-            dat[str(last_chat_id)][0]="4"
-    elif (last_chat_text in grouplist) or (last_chat_text=="меню" and (str(dat[str(last_chat_id)][0]) in course and str(dat[str(last_chat_id)][0]) in grouplist)):
-        dat[str(last_chat_id)][1] = last_chat_text
-        bot.send_message(last_chat_id, "Меню", reply_markup=generate_markup(
-            ["сегодня", "вчера", "завтра", "послезавтра", "сменить курс", "сменить группу"], False, True))
-    else:
-        if (str(dat[str(last_chat_id)][0]) not in course):
-            dat[str(last_chat_id)] = [[], []]
-            bot.send_message(last_chat_id, "выберите курс:", reply_markup=generate_markup(["1", "2", "4"], False, True))
-        elif (str(dat[str(last_chat_id)][0]) in course) and (str(dat[str(last_chat_id)][1]) not in grouplist):
-            if dat[str(last_chat_id)][0] == "1":
-                bot.send_message(last_chat_id, "выберите группу:", reply_markup=generate_markup(["101","102"], False, True))
-            elif dat[str(last_chat_id)][0] == "2":
-                bot.send_message(last_chat_id, "выберите группу:", reply_markup=generate_markup(["201", "202"], False, True))
-            elif dat[str(last_chat_id)][0] == "4" :
-                bot.send_message(last_chat_id, "выберите группу:", reply_markup=generate_markup(["401","402","403","404"], False, True))
-        elif (str(dat[str(last_chat_id)][0]) in course) and (str(dat[str(last_chat_id)][1]) in grouplist):
-            bot.send_message(last_chat_id, "Меню", reply_markup=generate_markup(["сегодня", "вчера", "завтра", "послезавтра", "сменить курс", "сменить группу"], False, True))
-        else:
-            dat[str(last_chat_id)] = [[], []]
-            bot.send_message(last_chat_id, "выберите курс:", reply_markup=generate_markup(["1", "2", "4"], False, True))
-
-    new_offset = last_update_id + 1
