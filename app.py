@@ -126,6 +126,7 @@ while True:
                     last_chat_name = last_update['message']['chat']['first_name']
                 except KeyError:
                     continue
+            print(last_chat_id,last_chat_name)
             if str(last_chat_id) in banda :
                 bot.send_message(last_chat_id, ("WIP ✨ 👑 LSD"))
             if last_chat_text.lower() == "локоть":
