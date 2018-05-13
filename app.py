@@ -8,7 +8,7 @@ import re
 import telebot
 from telebot import types
 
-token = "525594399:AAGB4NyiJjuYlwyaT-B2MymT_tFFY1b-TDk"
+token = "560289646:AAFzO2loYla3rOfMPBT_1S9YihU1JYN6dBU"
 api_url = "https://api.telegram.org/bot{}/".format(token)
 bot = telebot.TeleBot(token)
 markup = types.ReplyKeyboardMarkup()
