@@ -136,17 +136,17 @@ while True:
                 if last_chat_text == ("/start"):
                     bot.send_message(last_chat_id,"👋Приветствуем вас, "+str(last_chat_name)+"\nНиже находится клавиатура для управления ботом.\nПриятного пользования!")
                 dat[str(last_chat_id)] = ["", "", ""]
-                facs = [item for item in basa.basa.keys()]
+                facs = [item for item in basa.basa.keys()].sort()
                 bot.send_message(last_chat_id, "выберите факультет:", reply_markup=generate_markup(facs, False, True))
             elif (str(last_chat_text) in facs):
                 if (dat.get(str(last_chat_id)) != None):
                     dat[str(last_chat_id)][0] = str(last_chat_text)
-                    cours = [item for item in basa.basa[str(dat[str(last_chat_id)][0])].keys()]
+                    cours = [item for item in basa.basa[str(dat[str(last_chat_id)][0])].keys()].sort()
                     bot.send_message(last_chat_id, "выберите курс:", reply_markup=generate_markup(cours, False, True))
             elif (str(last_chat_text) in cours):
                 if (dat[str(last_chat_id)][0] != ""):
                     dat[str(last_chat_id)][1] = last_chat_text
-                    groups = [a for a in basa.basa[str(dat[str(last_chat_id)][0])][dat[str(last_chat_id)][1]]]
+                    groups = [a for a in basa.basa[str(dat[str(last_chat_id)][0])][dat[str(last_chat_id)][1]]].sort()
                     bot.send_message(last_chat_id, "выберите группу:", reply_markup=generate_markup(groups, False, True))
             elif (str(last_chat_text) in groups):
                 if (dat[str(last_chat_id)][1] != ""):
